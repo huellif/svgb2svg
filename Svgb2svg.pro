@@ -1,6 +1,5 @@
 TEMPLATE = app
 TARGET = SVGB2SVG
-CONFIG += qtestlib
 QT += core \
     gui\
     svg\
@@ -28,7 +27,7 @@ symbian {
     my_deployment.pkg_prerules = vendorinfo
     DEPLOYMENT += my_deployment
     DEPLOYMENT.display_name += SVGB2SVG
-    VERSION = 1.4.0
+    VERSION = 1.5.0
     TARGET.EPOCSTACKSIZE = 0x10000 \
     // \
     20kb

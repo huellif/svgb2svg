@@ -21,6 +21,7 @@
 #include <QtGui/QMainWindow>
 #include "svgb_decoder.h"
 #include "previewdialog.h"
+#include <QDir>
 
 namespace Ui
 {
@@ -55,6 +56,8 @@ private:
     QAction* menu_VersionAction;
     QAction* menu_ClearAction;
     PreviewDialog *p;
+    QDir *del;
+    QAction* backAction;
 
 
 };

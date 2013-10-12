@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QtGui>
-#include <QDir>
 #include <QStringList>
 #include <QFileDialog>
 #include <QFile>
@@ -15,11 +14,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     createMyMenu();
-     QAction* backAction = new QAction( tr("Back"), this );
+     backAction = new QAction( tr("Exit"), this );
      backAction->setSoftKeyRole( QAction::NegativeSoftKey );
      connect(backAction, SIGNAL(triggered()), this, SLOT(killer()));
      addAction( backAction );
      open = false;
+     del = new QDir;
 }
 
 MainWindow::~MainWindow()
@@ -29,12 +29,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::killer()
 {
-    QDir* del = new QDir;
+
     del->remove("C://data/temp.svgb");
     del->remove("C://data/temp.svg");
     if (open == true){
         p->deleteLater();
-        open = false;        
+        open = false;
+        backAction->setIconText("Exit");
     }    
     else {
         close();
@@ -45,7 +46,7 @@ void MainWindow::killer()
 
 void MainWindow::createMyMenu()
 {
-    menu_ClearAction = new QAction(tr("Export a SVG(B)"), this);
+    menu_ClearAction = new QAction(tr("Show a SVG(B)"), this);
     menuBar()->addAction(menu_ClearAction);
     connect(menu_ClearAction, SIGNAL(triggered()), this, SLOT(OpenNewWindow()));
 
@@ -135,4 +136,5 @@ void MainWindow::OpenNewWindow()
     p = new PreviewDialog();
     p->showMaximized();
     open = true;
+    backAction->setIconText("Back");
 }

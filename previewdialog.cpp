@@ -7,7 +7,6 @@
 #include <QImage>
 #include <QInputDialog>
 #include <QFileInfo>
-#include <QTest>
 
 //#include <QDebug>
 
@@ -34,7 +33,7 @@ void PreviewDialog::createMyMenu()
     menuBar()->addAction(menu_ClearAction);
     connect(menu_ClearAction, SIGNAL(triggered()), this, SLOT(clearAction()));
 
-    menu_SetAction = new QAction(tr("Show a SVG(B)"), this);
+    menu_SetAction = new QAction(tr("Choose a SVG(B)"), this);
     menuBar()->addAction(menu_SetAction);
     connect(menu_SetAction, SIGNAL(triggered()), this, SLOT(setAction()));
 }
@@ -60,36 +59,9 @@ void PreviewDialog::setAction()
                 decoder=new Decoder(files,this);
                 decoder->start();
                 ui->label->setText("wait ...");
-                QTest::qWait(2000);
-                QSvgRenderer renderer(QString("C://data/temp.svg"));
-                bool valid = renderer.isValid();
-                if (valid == false){
-                    myDir->remove("C://data/temp.svgb");
-                    myDir->remove("C://data/temp.svg");
-                    ui->label->setText("Error, problem with " + newpath +  " file decoding");
-                }
-                else {
-                    myDir->remove("C://data/temp.svgb");
-                    path = "C://data/temp.svg";
-                    ui->label->setText("Path: " + newpath);
 
-                    QSvgRenderer renderer(QString("" + path));
-                    int w = ui->label_2->width();
-                    int h = ui->label_2->height();
-                    if (w <= h){
-                        h = w;
-                    }
-                    if (h <= w){
-                        w = h;
-                    }
-                    QImage image(w, h, QImage::Format_ARGB32);
-                    QPainter painter(&image);
-                    renderer.render(&painter);
-                    QPixmap pixmap(QPixmap::fromImage(image));
-                    ui->label_2->setPixmap(pixmap);
-                }
             }
-            else{
+            else {
                 path = newpath;
                 ui->label->setText("Path: " + path);
 
@@ -116,7 +88,6 @@ void PreviewDialog::setAction()
                     ui->label_2->setPixmap(pixmap);
                 }
             }
-
     }
 }
 
@@ -125,7 +96,7 @@ void PreviewDialog::clearAction()
     path = "";
     newpath = "";
     ui->label->setText("Path: empty");
-    ui->label_2->setPixmap(QPixmap(QString(newpath)));
+    ui->label_2->clear();
 }
 
 void PreviewDialog::on_png_triggered()
@@ -160,10 +131,10 @@ void PreviewDialog::exportAction(QString end)
                     int w = 360;
                     int h = 360;
                     bool ok;
-                    int wq = QInputDialog::getInteger(this, "Export to" + end, "Set Width, for 360 press cancel", 360, 1, 1000, 1, &ok);
+                    int wq = QInputDialog::getInteger(this, "Export to" + end, "Set Width, for 360 press cancel", 360, 1, 2000, 1, &ok);
                     if (ok)
                         w = wq;
-                    int hq = QInputDialog::getInteger(this, "Export to" + end, "Set Height, for 360 press cancel", 360, 1, 1000, 1, &ok);
+                    int hq = QInputDialog::getInteger(this, "Export to" + end, "Set Height, for 360 press cancel", 360, 1, 2000, 1, &ok);
                     if (ok)
                         h = hq;
                     QImage image(w, h, QImage::Format_ARGB32);
@@ -190,9 +161,44 @@ void PreviewDialog::ProgressBarIncNeed(int val)
 
 void PreviewDialog::FileProcessed(const QString &result)
 {
-    //qDebug() << result;
+    if (result != "C://data/temp.svgb <font color='red'><b>ERROR! </b>This is not an S60 svgb file<br></font>"){
+        QSvgRenderer renderer(QString("C://data/temp.svg"));
+        bool valid = renderer.isValid();
+        if (valid == false){
+            myDir->remove("C://data/temp.svgb");
+            myDir->remove("C://data/temp.svg");
+            ui->label->setText("Error, problem with " + newpath +  " file decoding");
+            ui->label_2->clear();
+        }
+        else {
+            myDir->remove("C://data/temp.svgb");
+            path = "C://data/temp.svg";
+            ui->label->setText("Path: " + newpath);
+
+            QSvgRenderer renderer(QString("" + path));
+            int w = ui->label_2->width();
+            int h = ui->label_2->height();
+            if (w <= h){
+                h = w;
+            }
+            if (h <= w){
+                w = h;
+            }
+            QImage image(w, h, QImage::Format_ARGB32);
+            QPainter painter(&image);
+            renderer.render(&painter);
+            QPixmap pixmap(QPixmap::fromImage(image));
+            ui->label_2->setPixmap(pixmap);
+        }
+    }
+    else {
+        myDir->remove("C://data/temp.svgb");
+        myDir->remove("C://data/temp.svg");
+        ui->label->setText("Error, problem with " + newpath +  " file decoding");
+        ui->label_2->clear();
+    }
 }
 
 void PreviewDialog::FileProcessFinish()
-{
+{    
 }

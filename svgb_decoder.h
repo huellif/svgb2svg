@@ -10,7 +10,7 @@
 #define SVGB_EXIT_USAGE         1
 #define SVGB_EXIT_ERROR         2
 #define SVGB_EXIT_UNSUPPORTED   3
-#define APP_VERSION "1.4.0"
+#define APP_VERSION "1.5.0"
 
 
 
