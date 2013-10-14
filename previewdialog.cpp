@@ -24,7 +24,11 @@ PreviewDialog::PreviewDialog(QWidget *parent) :
 
 PreviewDialog::~PreviewDialog()
 {
-    delete ui;
+	delete ui;
+	delete decoder;
+	delete menu_SetAction;
+	delete menu_ClearAction;
+	delete myDir;
 }
 
 void PreviewDialog::createMyMenu()

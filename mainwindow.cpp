@@ -24,7 +24,14 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+	delete ui;
+	delete decoder;
+	delete menu_exitAction;
+	delete menu_VersionAction;
+	delete menu_ClearAction;
+	delete p;
+	delete del;
+	delete backAction;
 }
 
 void MainWindow::killer()
