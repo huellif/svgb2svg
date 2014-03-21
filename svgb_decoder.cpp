@@ -1,46 +1,3 @@
-/*
-* svgb2svg converter v.1.1.0
-* Author: Ilya Averyanov
-* based on svgb_dec v1.5 by Slava Monich
-*/
-
-/*
-* svgb_decoder v.0.7.7
-* Author: Anton Mihailov
-* based on svgb_dec v1.5 by Slava Monich 
-*/
-
-/*
- * $Id: svgb_dec.c,v 1.5 2007/01/27 04:01:39 slava Exp $
- *
- * Copyright (C) 2007 by Slava Monich
- *
- * Redistribution and use in source and binary forms, with or without 
- * modification, are permitted provided that the following conditions 
- * are met: 
- *
- *   1.Redistributions of source code must retain the above copyright 
- *     notice, this list of conditions and the following disclaimer. 
- *   2.Redistributions in binary form must reproduce the above copyright 
- *     notice, this list of conditions and the following disclaimer 
- *     in the documentation and/or other materials provided with the 
- *     distribution. 
- *
- * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES 
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
- * IN NO EVENT SHALL THE CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
- * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) ARISING 
- * IN ANY WAY OUT OF THE USE OR INABILITY TO USE THIS SOFTWARE, EVEN 
- * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
- *
- * The views and conclusions contained in the software and documentation 
- * are those of the authors and should not be interpreted as representing 
- * any official policies, either expressed or implied.
- */
-
 #include "svgb_decoder.h"
 
 #include <QFile>
@@ -1121,7 +1078,7 @@ static SvgDecodeElemStatus SVGB_DecodeElement(const SvgElement * elem, QDataStre
     {
         XML_WriteAttrNoEsc(out, elem->attr[i].name, elem->attr[i].value);
     }
-    
+
     /* Loop until we hit SvgAtrEnd mark */
     while (ReadBytes(in,endmark,2))
     {
@@ -1144,7 +1101,7 @@ static SvgDecodeElemStatus SVGB_DecodeElement(const SvgElement * elem, QDataStre
                     WRAP_Indent(+1);
                     return SvgDecodeElemStarted;
                 }
-                
+
             }
             else
             {
@@ -1174,7 +1131,7 @@ static SvgDecodeElemStatus SVGB_DecodeElement(const SvgElement * elem, QDataStre
         }
 
     }
-    error.append(QObject::tr("Unhandled error:(%1)<br>").arg(__LINE__));
+    error.append(QObject::tr("Unhandled error:(%1)").arg(__LINE__));
     return SvgDecodeError;
 }
 
@@ -1192,6 +1149,7 @@ static bool SVGB_Decode2(QString& inFileName, QString& outFileName)
     in >> start;
 
     QFile outFile(outFileName);
+    outFile.remove();
     outFile.open(QIODevice::WriteOnly);
     QTextStream out(&outFile);
 
@@ -1286,7 +1244,7 @@ static bool SVGB_Decode2(QString& inFileName, QString& outFileName)
     else
     {
 
-        error.append(QObject::tr("This is not an S60 svgb file<br>"));
+        error.append(QObject::tr("This is not an S60 svgb file"));
         return false;
     }
     error.append(QObject::tr("Error reading input<br>"));
@@ -1302,10 +1260,9 @@ bool SVGB_Decode(QString inFileName, QString outFileName,QString &reterr)
     error.clear();
     ok = SVGB_Decode2(inFileName, outFileName);
     if (ok == false){
-        QDir *dir = new QDir;
-        dir->remove(outFileName);
+        QFile::remove(outFileName);
     }
-    reterr.append(error);    
+    reterr.append(error);
     return ok;
 }
 

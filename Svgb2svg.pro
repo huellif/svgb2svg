@@ -1,8 +1,6 @@
 TEMPLATE = app
 TARGET = SVGB2SVG
-QT += core \
-    gui\
-    svg\
+QT += svg
 
 SOURCES += \
     svgb_decoder.cpp \
@@ -19,15 +17,15 @@ FORMS += mainwindow.ui \
     previewdialog.ui
 RESOURCES +=
 symbian {
-    #MMP_RULES += "DEBUGGABLE"
+    MMP_RULES += "DEBUGGABLE"
     TARGET.UID3 = 0xE108736F
     HEADERS +=
-    ICON = Icon.svg
+    #ICON = Icon.svg
     vendorinfo = "%{\"huellif\"}" ":\"huellif\""
     my_deployment.pkg_prerules = vendorinfo
     DEPLOYMENT += my_deployment
     DEPLOYMENT.display_name += SVGB2SVG
-    VERSION = 1.5.0
+    VERSION = 1.6.0
     TARGET.EPOCSTACKSIZE = 0x10000 \
     // \
     20kb
@@ -40,6 +38,14 @@ symbian {
     16Mb
 }
 
+MMP_RULES += "OPTION gcce -O3"
+MMP_RULES += "OPTION gcce -march=armv6"
+MMP_RULES += "OPTION gcce -mfpu=vfp"
+MMP_RULES += "OPTION gcce -mfloat-abi=softfp"
+MMP_RULES += "OPTION gcce -marm"
+MMP_RULES += "OPTION gcce -fpermissive"
+#MMP_RULES += "OPTION gcce -w"
+MMP_RULES += "OPTION gcce -ffast-math"
 
 
 

@@ -21,7 +21,6 @@
 #include <QtGui/QMainWindow>
 #include "svgb_decoder.h"
 #include "previewdialog.h"
-#include <QDir>
 
 namespace Ui
 {
@@ -39,7 +38,7 @@ public:
     bool open;
 
 private slots:
-    void ProgressBarIncNeed(int val);
+    void ProgressBarIncNeed(const int &val);
     void FileProcessed(const QString& result);
     void FileProcessFinish();
     void VersionAction();
@@ -49,6 +48,8 @@ private slots:
     void killer();
     void OpenNewWindow();
 
+    void on_actionExit_triggered();
+
 private:
     Ui::MainWindow *ui;
     Decoder *decoder;
@@ -56,10 +57,7 @@ private:
     QAction* menu_VersionAction;
     QAction* menu_ClearAction;
     PreviewDialog *p;
-    QDir *del;
     QAction* backAction;
-
-
 };
 
 #endif // MAINWINDOW_H

@@ -21,6 +21,15 @@
     <enum>Qt::NoContextMenu</enum>
    </property>
    <layout class="QGridLayout" name="gridLayout">
+    <property name="horizontalSpacing">
+     <number>4</number>
+    </property>
+    <property name="verticalSpacing">
+     <number>3</number>
+    </property>
+    <property name="margin">
+     <number>4</number>
+    </property>
     <item row="0" column="0" rowspan="2" colspan="3">
      <widget class="QLabel" name="label_2">
       <property name="sizePolicy">
@@ -67,7 +76,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="contextMenuPolicy">
@@ -85,11 +94,6 @@
     <addaction name="bmp"/>
    </widget>
    <addaction name="menuSet_path"/>
-  </widget>
-  <widget class="QStatusBar" name="statusbar">
-   <property name="contextMenuPolicy">
-    <enum>Qt::NoContextMenu</enum>
-   </property>
   </widget>
   <action name="png">
    <property name="text">

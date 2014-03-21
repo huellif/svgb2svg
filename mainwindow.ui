@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>467</width>
-    <height>555</height>
+    <height>500</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -41,36 +41,15 @@
     <enum>Qt::NoContextMenu</enum>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="0">
-     <widget class="QProgressBar" name="progressBar">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>8</pointsize>
-       </font>
-      </property>
-      <property name="contextMenuPolicy">
-       <enum>Qt::NoContextMenu</enum>
-      </property>
-      <property name="accessibleDescription">
-       <string notr="true"/>
-      </property>
-      <property name="value">
-       <number>0</number>
-      </property>
-      <property name="textVisible">
-       <bool>false</bool>
-      </property>
-      <property name="invertedAppearance">
-       <bool>false</bool>
-      </property>
-      <property name="textDirection">
-       <enum>QProgressBar::BottomToTop</enum>
-      </property>
-     </widget>
-    </item>
+    <property name="horizontalSpacing">
+     <number>4</number>
+    </property>
+    <property name="verticalSpacing">
+     <number>3</number>
+    </property>
+    <property name="margin">
+     <number>4</number>
+    </property>
     <item row="0" column="0">
      <widget class="QPushButton" name="file">
       <property name="sizePolicy">
@@ -173,6 +152,36 @@
       </property>
      </widget>
     </item>
+    <item row="4" column="0">
+     <widget class="QProgressBar" name="progressBar">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
+      <property name="value">
+       <number>0</number>
+      </property>
+      <property name="textVisible">
+       <bool>false</bool>
+      </property>
+      <property name="invertedAppearance">
+       <bool>false</bool>
+      </property>
+      <property name="textDirection">
+       <enum>QProgressBar::BottomToTop</enum>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -181,11 +190,10 @@
      <x>0</x>
      <y>0</y>
      <width>467</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionSingle_File">
    <property name="text">
     <string>Single File</string>
