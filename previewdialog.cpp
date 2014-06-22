@@ -48,7 +48,7 @@ void PreviewDialog::resizeEvent(QResizeEvent *)
     if(path.isEmpty()) return;
     QSvgRenderer renderer(path);
     int w = ui->label_2->width();
-    int h = ui->label_2->height();
+    int h = ui->label_2->height()-ui->label->height();
     if (w <= h){
         h = w;
     }
