@@ -26,6 +26,7 @@ private:
     QAction* menu_ToggleAction;
     QString path;
     QString newpath;
+    void resizeEvent(QResizeEvent *);
 
 private slots:
 

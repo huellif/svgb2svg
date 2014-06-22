@@ -83,6 +83,9 @@
     <enum>Qt::NoContextMenu</enum>
    </property>
    <widget class="QMenu" name="menuSet_path">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="contextMenuPolicy">
      <enum>Qt::NoContextMenu</enum>
     </property>

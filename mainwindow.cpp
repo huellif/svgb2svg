@@ -34,7 +34,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::killer()
 {
-
     QFile::remove("C://data/temp.svgb");
     QFile::remove("C://data/temp.svg");
     if (open == true)
@@ -121,7 +120,7 @@ void MainWindow::on_folder_clicked()
 
 void MainWindow::on_file_clicked()
 {
-    QStringList files = QFileDialog::getOpenFileNames(
+    const QStringList files = QFileDialog::getOpenFileNames(
                 0,
                 "Select a file to decode",
                 "",

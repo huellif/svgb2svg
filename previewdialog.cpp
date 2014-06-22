@@ -17,7 +17,6 @@ PreviewDialog::PreviewDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     createMyMenu();
-    ui->menuSet_path->setDisabled(true);
 }
 
 PreviewDialog::~PreviewDialog()
@@ -44,17 +43,35 @@ void PreviewDialog::createMyMenu()
     connect(menu_ClearAction, SIGNAL(triggered()), this, SLOT(clearAction()));
 }
 
+void PreviewDialog::resizeEvent(QResizeEvent *)
+{
+    if(path.isEmpty()) return;
+    QSvgRenderer renderer(path);
+    int w = ui->label_2->width();
+    int h = ui->label_2->height();
+    if (w <= h){
+        h = w;
+    }
+    if (h <= w){
+        w = h;
+    }
+    QImage image(w, h, QImage::Format_ARGB32);
+    QPainter painter(&image);
+    renderer.render(&painter);
+    QPixmap pixmap(QPixmap::fromImage(image));
+    ui->label_2->setPixmap(pixmap);
+}
+
 void PreviewDialog::setAction()
 {
     newpath = QFileDialog::getOpenFileName(
                 0,
-                "Select a .svg to render to ",
+                "Select a .svg(b) to render",
                 QString(),
-                "Image Files (*.svg);;Image Files (*.svgb)");
+                "*.svgb *.svg");
     if (!newpath.isEmpty()){
         ui->menuSet_path->setEnabled(true);
-        QString ext = QFileInfo(newpath).suffix();
-        if (ext == QLatin1String("svgb"))
+        if (QFileInfo(newpath).suffix() == QLatin1String("svgb"))
         {
             QFile::remove("C://data/temp.svgb");
             QFile::remove("C://data/temp.svg");
@@ -64,33 +81,18 @@ void PreviewDialog::setAction()
             decoder=new Decoder(files,this);
             decoder->start();
             ui->label->setText("wait ...");
-
         }
         else
         {
             path = newpath;
             ui->label->setText("Path: " + path);
-
-            QSvgRenderer renderer(path);
-            if (!renderer.isValid()){
+            if (!QSvgRenderer (path).isValid()){
                 QFile::remove("C://data/temp.svgb");
                 QFile::remove("C://data/temp.svg");
                 ui->label->setText("Error, problem with " + path +  " file");
             }
             else{
-                int w = ui->label_2->width();
-                int h = ui->label_2->height();
-                if (w <= h){
-                    h = w;
-                }
-                if (h <= w){
-                    w = h;
-                }
-                QImage image(w, h, QImage::Format_ARGB32);
-                QPainter painter(&image);
-                renderer.render(&painter);
-                QPixmap pixmap(QPixmap::fromImage(image));
-                ui->label_2->setPixmap(pixmap);
+                resizeEvent(0);
             }
         }
     }
@@ -204,21 +206,7 @@ void PreviewDialog::FileProcessed(const QString &result)
             QFile::remove("C://data/temp.svgb");
             path = "C://data/temp.svg";
             ui->label->setText("Path: " + newpath);
-
-            QSvgRenderer renderer(path);
-            int w = ui->label_2->width();
-            int h = ui->label_2->height();
-            if (w <= h){
-                h = w;
-            }
-            if (h <= w){
-                w = h;
-            }
-            QImage image(w, h, QImage::Format_ARGB32);
-            QPainter painter(&image);
-            renderer.render(&painter);
-            QPixmap pixmap(QPixmap::fromImage(image));
-            ui->label_2->setPixmap(pixmap);
+            resizeEvent(0);
         }
     }
     else {
